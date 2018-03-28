@@ -6,6 +6,10 @@ import get_points
 import numpy as np
 def run(source=0, dispLoc=False):
     # Create the VideoCapture object
+
+    # flash_threshold = 482286005 # mid 
+    # flash_threshold = 256239190 # left
+    flash_threshold = 378792000 # right
     cam = cv2.VideoCapture(source)
 
     # If Camera Device is not opened, exit the program
@@ -24,7 +28,7 @@ def run(source=0, dispLoc=False):
             break
         cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         cv2.imshow("Image", img)
-        if img.sum() > 470406365:
+        if img.sum() > flash_threshold:
             print("flash",img.sum())
         # print(img.sum())
     cv2.destroyWindow("Image")
@@ -59,14 +63,17 @@ def run(source=0, dispLoc=False):
         # Get the position of the object, draw a 
         # bounding box around it and display it.
         rect = tracker.get_position()
-        if img.sum() > 470406365:
+        if img.sum() > flash_threshold:
             record = True
+            print("flash")
         if record == True:
-            position_tuple_list.append(((int(rect.right()+rect.left())/2), int((rect.top()+rect.bottom())/2)))
+            x_y_pair = ((int(rect.right()+rect.left())/2), int((rect.top()+rect.bottom())/2))
+            print(x_y_pair)
+            position_tuple_list.append(x_y_pair)
         pt1 = (int(rect.left()), int(rect.top())) # left-top point
         pt2 = (int(rect.right()), int(rect.bottom())) # right-buttom point
         cv2.rectangle(img, pt1, pt2, (255, 255, 255), 3)
-        print ("Object tracked at [{}, {}] \r".format(pt1, pt2),)
+        # print ("Object tracked at [{}, {}] \r".format(pt1, pt2),)
         if dispLoc:
             loc = (int(rect.left()), int(rect.top()-20))
             txt = "Object tracked at [{}, {}]".format(pt1, pt2)
@@ -80,7 +87,7 @@ def run(source=0, dispLoc=False):
     # Relase the VideoCapture object
     cam.release()
     position_tuple_list = np.array(position_tuple_list)
-    np.save("position_tuple_list.npy", position_tuple_list)
+    np.save(str(source)+".npy", position_tuple_list)
 if __name__ == "__main__":
     # Parse command line arguments
     parser = ap.ArgumentParser()
