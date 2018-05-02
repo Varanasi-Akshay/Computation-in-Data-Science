@@ -7,9 +7,13 @@ import numpy as np
 def run(source=0, dispLoc=False):
     # Create the VideoCapture object
 
-    # flash_threshold = 482286005 # mid 
-    # flash_threshold = 256239190 # left
-    flash_threshold = 378792000 # right
+    # flash_threshold = 482286005 # video 3 mid 
+    # flash_threshold = 256239190 # video 3 left
+    # flash_threshold = 378792000 # video 3 right
+    
+    # flash_threshold = 232000000 # video 4 left
+    # flash_threshold = 536700000 # video 4 mid
+    flash_threshold = 240205771 # video 4 top
     cam = cv2.VideoCapture(source)
 
     # If Camera Device is not opened, exit the program
@@ -28,8 +32,11 @@ def run(source=0, dispLoc=False):
             break
         cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         cv2.imshow("Image", img)
+
         if img.sum() > flash_threshold:
             print("flash",img.sum())
+        
+        # for the unseen video, print the sum of RGB value to set the flash threshold
         # print(img.sum())
     cv2.destroyWindow("Image")
 
