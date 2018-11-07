@@ -1,6 +1,6 @@
 # Hooke's law
 ### Track the weights and record its position after the flash
-<img src="https://github.com/thtang/Computation-in-Data-Science/blob/master/Hookes_law/demo.gif">
+<img src="https://github.com/thtang/Computation-in-Data-Science/blob/master/Numerical%20Linear%20Algebra/Hookes%20Law/demo.gif">
 
 ### Dependencies
 `Dlib` `OpenCV`
